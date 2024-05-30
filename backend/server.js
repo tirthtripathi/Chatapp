@@ -36,7 +36,7 @@ const server = app.listen(PORT, console.log(`server started on PORT ${PORT}`.yel
 const io = require('socket.io')(server,{
     pingTimeout: 60000,
     cors:{
-        origin: "http://localhost:5173",
+        origin: ["http://216.24.57.4","http://216.24.57.252"],
         methods: ["GET", "POST"],
         allowedHeaders: ["Authorization"],
         credentials: true
