@@ -42,7 +42,7 @@ const Login = () => {
                 };
           
                 const { data } = await axios.post(
-                  "https://panchayat-8mwo.onrender.com/api/user/login",
+                  "/api/user/login",
                   { email, password },
                   config
                 );

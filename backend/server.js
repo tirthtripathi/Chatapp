@@ -1,5 +1,4 @@
 const express = require("express");
-const cors = require("cors"); // Import the cors middleware
 const { chats } = require("./data/data");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
@@ -16,14 +15,6 @@ const messageRoutes = require("./routes/messageRoutes");
 dotenv.config();
 connectDB();
 const app = express();
-
-// Apply CORS middleware for HTTP-based API endpoints
-app.use(cors({
-    origin: ['https://panchayat-frn1.onrender.com',"http://localhost:5173"],// Replace with your frontend domain
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify the methods you want to allow
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true // Allow sending of cookies and session tokens
-}));
 
 app.use(express.json()); // to accept json data 
 
