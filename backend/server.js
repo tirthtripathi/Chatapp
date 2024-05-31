@@ -1,42 +1,50 @@
 const express = require("express");
+const cors = require("cors"); // Import the cors middleware
 const { chats } = require("./data/data");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
-const colors = require("colors") 
+const colors = require("colors"); 
 const path = require('path');
 
-const {notFound, errorHandler} =require("./middleware/errorMiddleware")
+const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 // Routes
 const userRoutes = require("./routes/userRoutes");
-const chatRoutes = require("./routes/chatRoutes")
-const messegeRoutes = require("./routes/messageRoutes")
+const chatRoutes = require("./routes/chatRoutes");
+const messageRoutes = require("./routes/messageRoutes");
 
 dotenv.config();
 connectDB();
 const app = express();
 
+
+app.use(cors({
+    origin: 'https://panchayat-frn1.onrender.com', 
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true 
+}));
+
 app.use(express.json()); // to accept json data 
 
 app.use('/api/user', userRoutes);
-app.use('/api/chat',chatRoutes);
-app.use('/api/message', messegeRoutes);
+app.use('/api/chat', chatRoutes);
+app.use('/api/message', messageRoutes);
 
+app.get('/', (req, res) => {
+    res.send("Hello user");
+});
 
-app.get('/', (req, res)=>{
-        res.send("Hello user")
-})
+app.use(notFound);
+app.use(errorHandler);
 
-app.use(notFound)
-app.use(errorHandler)
+const PORT = process.env.PORT || 8000;
 
-const PORT = process.env.PORT || 8000
-
-const server = app.listen(PORT, console.log(`server started on PORT ${PORT}`.yellow.bold));
-const io = require('socket.io')(server,{
+const server = app.listen(PORT, () => console.log(`server started on PORT ${PORT}`.yellow.bold));
+const io = require('socket.io')(server, {
     pingTimeout: 60000,
-    cors:{
-        origin: ["https://216.24.57.4","https://216.24.57.252"],
+    cors: {
+        origin: ["https://216.24.57.4", "https://216.24.57.252"], // CORS settings for Socket.IO
         methods: ["GET", "POST"],
         allowedHeaders: ["Authorization"],
         credentials: true
@@ -57,12 +65,12 @@ io.on("connection", (socket) => {
         socket.join(room);
     });
 
-    socket.on('typing',(room) => socket.in(room).emit("typing"));
-    socket.on('stop typing',(room) => socket.in(room).emit("stop typing"));
+    socket.on('typing', (room) => socket.in(room).emit("typing"));
+    socket.on('stop typing', (room) => socket.in(room).emit("stop typing"));
 
     socket.on("new message", (newMessageReceived) => {
         console.log("new message received:", newMessageReceived);
-        
+
         if (!newMessageReceived.chat) {
             return console.log('newMessageReceived.chat not defined');
         }
@@ -81,8 +89,8 @@ io.on("connection", (socket) => {
         });
     });
 
-    socket.off('setup',() => {
-        console.log('user disconected');
-        socket.leave(userData._id)
+    socket.off('setup', () => {
+        console.log('user disconnected');
+        socket.leave(userData._id);
     });
 });
