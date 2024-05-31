@@ -44,7 +44,7 @@ const GroupChatModal = ({ children }) => {
             Authorization: `Bearer ${user.token}`,
           },
         };
-        const { data } = await axios.get(`/api/user?search=${search}`, config);
+        const { data } = await axios.get(`https://panchayat-frn1.onrender.com/api/user?search=${search}`, config);
         setLoading(false);
         setSearchResult(data);
       } catch (error) {
@@ -82,7 +82,7 @@ const GroupChatModal = ({ children }) => {
           },
         };
         const { data } = await axios.post(
-          `/api/chat/group`,
+          `https://panchayat-frn1.onrender.com/api/chat/group`,
           {
             name: groupChatName,
             users: JSON.stringify(selectedUsers.map((u) => u._id)),

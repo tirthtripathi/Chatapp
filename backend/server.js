@@ -19,7 +19,7 @@ const app = express();
 
 // Apply CORS middleware for HTTP-based API endpoints
 app.use(cors({
-    origin: ['https://panchayat-frn1.onrender.com',"http://localhost:5173"], // Replace with your frontend domain
+    origin: ['https://panchayat-frn1.onrender.com',"http://localhost:5173"],// Replace with your frontend domain
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify the methods you want to allow
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true // Allow sending of cookies and session tokens
@@ -44,7 +44,7 @@ const server = app.listen(PORT, () => console.log(`server started on PORT ${PORT
 const io = require('socket.io')(server, {
     pingTimeout: 60000,
     cors: {
-        origin: ["https://216.24.57.4", "https://216.24.57.252","http://localhost:5173"], // CORS settings for Socket.IO
+        origin: ["https://216.24.57.4", "https://216.24.57.252", "http://localhost:5173"], // CORS settings for Socket.IO
         methods: ["GET", "POST"],
         allowedHeaders: ["Authorization"],
         credentials: true

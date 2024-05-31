@@ -97,7 +97,7 @@ const Signup = () => {
             },
         };
         const {data} =  await axios.post(
-            "/api/user",
+            "https://panchayat-frn1.onrender.com/api/user",
             {name, email, password, pic},
             config
         );
