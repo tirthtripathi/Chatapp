@@ -42,7 +42,7 @@ const Login = () => {
                 };
           
                 const { data } = await axios.post(
-                  "/api/user/login",
+                  import.meta.env.VITE_REACT_APP_BACKEND_BASEUR+"/api/user/login",
                   { email, password },
                   config
                 );

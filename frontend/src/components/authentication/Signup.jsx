@@ -97,7 +97,7 @@ const Signup = () => {
             },
         };
         const {data} =  await axios.post(
-            "/api/user",
+            import.meta.env.VITE_REACT_APP_BACKEND_BASEUR+"/api/user",
             {name, email, password, pic},
             config
         );
